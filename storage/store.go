@@ -17,7 +17,7 @@ func (s *Store) SaveNewRecord(r *core.Record) error {
 	if err != nil {
 		return err
 	}
-	_, err = s.Pool.Exec(context.Background(), "INSERT INTO records (date, info) VALUES ($1, $2)", r.Date, info)
+	_, err = s.Pool.Exec(context.Background(), "INSERT INTO records (date, executed, info) VALUES ($1, $2, $3)", r.Date, r.Executed, info)
 	if err != nil {
 		return err
 	}

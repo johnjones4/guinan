@@ -23,19 +23,23 @@ var allEars = map[string]core.Ear{
 var store storage.Store
 
 func makeRecord() {
+	log.Println("Making new record")
+	now := time.Now().UTC()
 	record := core.Record{
-		Date: time.Now().UTC(),
+		Date:     now,
+		Executed: now,
 	}
 	for name, ear := range allEars {
 		log.Printf("Fetching %s", name)
 		err := ear.FetchAndPopulate(&record)
 		if err != nil {
-			log.Println(err)
+			log.Println("ERROR", err)
 		}
 	}
+	log.Println("Saving record")
 	err := store.SaveNewRecord(&record)
 	if err != nil {
-		panic(err)
+		log.Println("ERROR", err)
 	}
 }
 
@@ -47,6 +51,8 @@ func main() {
 	store = storage.Store{
 		Pool: pool,
 	}
+
+	makeRecord()
 
 	c := cron.New()
 	c.AddFunc("@daily", makeRecord)

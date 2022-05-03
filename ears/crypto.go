@@ -10,7 +10,9 @@ import (
 )
 
 type alphavantageResponse struct {
-	ExchangeRate string `json:"5. Exchange Rate"`
+	Body struct {
+		ExchangeRate string `json:"5. Exchange Rate"`
+	} `json:"Realtime Currency Exchange Rate"`
 }
 
 type CryptoEar struct {
@@ -25,7 +27,7 @@ func (e *CryptoEar) fetch(c string) (float64, error) {
 	params.Set("apikey", e.APIKey)
 	u := url.URL{
 		Scheme:   "https",
-		Host:     "www.alphavantage.co/",
+		Host:     "www.alphavantage.co",
 		Path:     "/query",
 		RawQuery: params.Encode(),
 	}
@@ -45,7 +47,7 @@ func (e *CryptoEar) fetch(c string) (float64, error) {
 		return 0, err
 	}
 
-	val, err := strconv.ParseFloat(resp.ExchangeRate, 64)
+	val, err := strconv.ParseFloat(resp.Body.ExchangeRate, 64)
 	if err != nil {
 		return 0, err
 	}

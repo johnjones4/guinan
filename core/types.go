@@ -8,8 +8,9 @@ type Headline struct {
 }
 
 type Record struct {
-	Date time.Time `json:"time"`
-	Info struct {
+	Date     time.Time `json:"date"`
+	Executed time.Time `json:"executed"`
+	Info     struct {
 		NYTHeadlines []Headline `json:"nytHeadlines"`
 		ETHPrice     float64    `json:"ethPrice"`
 		BTCPrice     float64    `json:"btcPrice"`
