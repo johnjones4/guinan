@@ -52,8 +52,6 @@ func main() {
 		Pool: pool,
 	}
 
-	makeRecord()
-
 	c := cron.New()
 	c.AddFunc("@daily", makeRecord)
 	c.Start()
